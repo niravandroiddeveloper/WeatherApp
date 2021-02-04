@@ -50,8 +50,8 @@ object RetrofitBuilder {
 
     @Singleton
     @Provides
-    fun getAPiclicent(retrofit: Retrofit): ApiInterface {
-        return retrofit.create(ApiInterface::class.java)
+    fun getAPiclicent(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 
 }

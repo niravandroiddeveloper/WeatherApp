@@ -1,4 +1,4 @@
-package com.wheatherapp.repository
+package com.wheatherapp.map.repository
 
 import com.wheatherapp.di.database.dao.BookmarkDao
 import com.wheatherapp.di.database.entities.Bookmark
@@ -32,5 +32,7 @@ class WeatherDataRepository @Inject constructor(val apiService: ApiService, val 
 
 
     suspend fun getBookMark() = dao.getAll()
+
+    suspend fun containBookMark(id:Int):List<Bookmark> = dao.contain(id)
 
 }

@@ -1,0 +1,13 @@
+<resources>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="text_regular">20sp</dimen>
+    <dimen name="text_large">36sp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_30">45dp</dimen>
+    <dimen name="dp_35">45dp</dimen>
+    <dimen name="dp_100">150dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+</resources>

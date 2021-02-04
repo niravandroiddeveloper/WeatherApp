@@ -6,7 +6,6 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.weatherapp"
@@ -30,6 +29,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -61,6 +63,7 @@ dependencies {
     // room database library
     implementation 'androidx.room:room-runtime:2.2.6'
     implementation 'androidx.room:room-ktx:2.2.6'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'androidx.room:room-compiler:2.2.6'
 
     //hilt for depedency injection
