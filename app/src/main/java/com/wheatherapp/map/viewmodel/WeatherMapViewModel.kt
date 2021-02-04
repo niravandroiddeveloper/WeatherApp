@@ -51,9 +51,9 @@ class WeatherMapViewModel @Inject constructor(
         }
     }
 
-    fun containBookMark(id:Int) {
+    fun containBookMarkInDatabase(id:Int) {
         viewModelScope.launch {
-            weatherDataRepository.containBookMark(id).let {
+            weatherDataRepository.containBookMarkInDatabase(id).let {
                containBookMark.value=it
             }
         }

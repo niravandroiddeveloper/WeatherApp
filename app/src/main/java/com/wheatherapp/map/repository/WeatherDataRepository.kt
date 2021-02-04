@@ -33,6 +33,6 @@ class WeatherDataRepository @Inject constructor(val apiService: ApiService, val 
 
     suspend fun getBookMark() = dao.getAll()
 
-    suspend fun containBookMark(id:Int):List<Bookmark> = dao.contain(id)
+    suspend fun containBookMarkInDatabase(id:Int):List<Bookmark> = dao.containBookMarkInDatabase(id)
 
 }

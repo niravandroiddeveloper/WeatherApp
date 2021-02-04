@@ -1,5 +1,6 @@
 package com.wheatherapp.di.network
 
+import com.wheatherapp.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +36,7 @@ object RetrofitBuilder {
     @Provides
     @Named("baseUrl")
     fun provideBaseUrl(): String {
-        return "http://api.openweathermap.org/"
+        return BASE_URL
     }
 
     @Singleton

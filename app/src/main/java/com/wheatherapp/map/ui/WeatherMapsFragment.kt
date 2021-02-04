@@ -21,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
 import com.wheatherapp.BackPressListner
 import com.wheatherapp.WEBVIW_PATH
+import com.wheatherapp.changeColor
 import com.wheatherapp.map.viewmodel.WeatherMapViewModel
 import com.wheatherapp.model.LocationWeatherModel
 import com.wheatherapp.openweathermap.R
@@ -61,13 +62,13 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setData()
+        setListner()
         setBottomSHeet()
         addMap()
 
     }
 
-    private fun setData() {
+    private fun setListner() {
 
         ivBookMark.setOnClickListener(this)
         ivExploreWeather.setOnClickListener(this)
@@ -90,7 +91,6 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
             override fun onStateChanged(bottomSheet: View, newState: Int) {
 
             }
-
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset > 0) {
@@ -175,11 +175,11 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
                     addMarker(locationWeather)
                 } else {
                     sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    weatherMapViewModel.removeBookMark(locationWeather,!isLocateCity)
+                    weatherMapViewModel.removeBookMark(locationWeather, !isLocateCity)
                     bottomSheetDataBinding.btnAddBookmark.text = getString(R.string.bookmark)
                 }
             }
-            weatherMapViewModel.containBookMark(locationWeather!!.id)
+            weatherMapViewModel.containBookMarkInDatabase(locationWeather!!.id)
 
             weatherMapViewModel.containBookMark.observe(this, Observer {
                 if (!isLocateCity || it.size > 0) {
@@ -230,33 +230,25 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
             R.id.ivExploreWeather -> {
                 mapFragmentDataBinding.pinImageView.visibility = View.VISIBLE
 
-                resetData()
+                resetICOn()
 
                 if (!isLocateCity)
                     mMap.clear()
                 isLocateCity = true
-                resetData()
-                ivExploreWeather.setColorFilter(
-                        ContextCompat.getColor(
-                                activity!!.applicationContext,
-                                R.color.yellow
-                        ), android.graphics.PorterDuff.Mode.MULTIPLY
-                );
+                resetICOn()
+
+                ivExploreWeather.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.yellow))
 
             }
             R.id.ivBookMark -> {
                 mapFragmentDataBinding.pinImageView.visibility = View.GONE
 
-                resetData()
+                resetICOn()
                 isLocateCity = false
                 mMap.clear()
                 weatherMapViewModel.loadBookmarks()
-                ivBookMark.setColorFilter(
-                        ContextCompat.getColor(
-                                activity!!.applicationContext,
-                                R.color.yellow
-                        ), android.graphics.PorterDuff.Mode.MULTIPLY
-                );
+
+                ivBookMark.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.yellow))
 
             }
             R.id.ivHelp -> {
@@ -267,23 +259,10 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
         }
     }
 
-    private fun resetData() {
-        ivHelp.setColorFilter(
-                ContextCompat.getColor(activity!!.applicationContext, R.color.white),
-                android.graphics.PorterDuff.Mode.MULTIPLY
-        );
-        ivBookMark.setColorFilter(
-                ContextCompat.getColor(
-                        activity!!.applicationContext,
-                        R.color.white
-                ), android.graphics.PorterDuff.Mode.MULTIPLY
-        );
-        ivExploreWeather.setColorFilter(
-                ContextCompat.getColor(
-                        activity!!.applicationContext,
-                        R.color.white
-                ), android.graphics.PorterDuff.Mode.MULTIPLY
-        );
+    private fun resetICOn() {
+        ivHelp.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.white))
+        ivBookMark.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.white))
+        ivExploreWeather.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.white))
 
     }
 

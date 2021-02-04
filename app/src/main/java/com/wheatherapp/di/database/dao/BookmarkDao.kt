@@ -16,5 +16,5 @@ interface BookmarkDao {
     suspend fun getAll(): List<Bookmark>
 
     @Query("SELECT * FROM bookmarks WHERE id= :locationId")
-    suspend fun contain(locationId:Int): List<Bookmark>
+    suspend fun containBookMarkInDatabase(locationId:Int): List<Bookmark>
 }
