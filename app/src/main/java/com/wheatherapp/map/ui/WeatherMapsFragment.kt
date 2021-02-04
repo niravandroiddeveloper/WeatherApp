@@ -35,8 +35,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnCameraIdleListener, GoogleMap.OnMapClickListener, View.OnClickListener,
-        BackPressListner {
+    GoogleMap.OnCameraIdleListener, GoogleMap.OnMapClickListener, View.OnClickListener,
+    BackPressListner {
     @Inject
     lateinit var weatherMapViewModel: WeatherMapViewModel
 
@@ -51,11 +51,11 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
 
     override fun onCreateView(
 
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         mapFragmentDataBinding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_weather_maps, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_weather_maps, container, false)
         return mapFragmentDataBinding.root
     }
 
@@ -73,15 +73,15 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
         ivBookMark.setOnClickListener(this)
         ivExploreWeather.setOnClickListener(this)
         ivHelp.setOnClickListener(
-                this
+            this
         )
     }
 
     private fun setBottomSHeet() {
         DataBindingUtil.getBinding<BottomSheetCitydetailBinding>(
-                mapFragmentDataBinding.root.findViewById(
-                        R.id.cityBottomDetailSheetLayout
-                )
+            mapFragmentDataBinding.root.findViewById(
+                R.id.cityBottomDetailSheetLayout
+            )
 
         )?.let { bottomSheetDataBinding = it }
 
@@ -142,17 +142,26 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
 
     private fun addMarker(locationWeatherModel: LocationWeatherModel) {
         val markerOptions = MarkerOptions()
-                .anchor(0.5f, 0.5f)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location))
-                .position(LatLng(locationWeatherModel.lat, locationWeatherModel.lon))
-                .title(locationWeatherModel.name)
-        mMap.addMarker(markerOptions).apply {
-            tag = locationWeatherModel
-            showInfoWindow()
+            .anchor(0.5f, 0.5f)
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location))
+            .position(LatLng(locationWeatherModel.lat, locationWeatherModel.lon))
+            .title(locationWeatherModel.name)
+        try {
+            mMap.addMarker(markerOptions).apply {
+                tag = locationWeatherModel
+
+                snippet = locationWeatherModel.temp.toString() + " °K"
+                showInfoWindow()
+            }
+        } catch (e: Exception) {
+
         }
     }
 
-    private fun expandBottomSheet(locationWeather: LocationWeatherModel? = null, isWebView: Boolean = false) {
+    private fun expandBottomSheet(
+        locationWeather: LocationWeatherModel? = null,
+        isWebView: Boolean = false
+    ) {
 
         sheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         if (isWebView) {
@@ -170,7 +179,9 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
 
             bottomSheetDataBinding.btnAddBookmark.setOnClickListener {
                 weatherMapViewModel.bookmarkLocation(locationWeather!!)
-                if (bottomSheetDataBinding.btnAddBookmark.text.toString().contentEquals(StringBuilder().append(getString(R.string.bookmark)))) {
+                if (bottomSheetDataBinding.btnAddBookmark.text.toString()
+                        .contentEquals(StringBuilder().append(getString(R.string.bookmark)))
+                ) {
                     bottomSheetDataBinding.btnAddBookmark.text = getString(R.string.remove_bookmark)
                     addMarker(locationWeather)
                 } else {
@@ -207,8 +218,8 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
     override fun onCameraIdle() {
         if (!isLocateCity) return
         weatherMapViewModel.refreshPin(
-                mMap.cameraPosition.target.latitude,
-                mMap.cameraPosition.target.longitude
+            mMap.cameraPosition.target.latitude,
+            mMap.cameraPosition.target.longitude
         )
 
 
@@ -237,7 +248,12 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
                 isLocateCity = true
                 resetICOn()
 
-                ivExploreWeather.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.yellow))
+                ivExploreWeather.changeColor(
+                    ContextCompat.getColor(
+                        activity!!.applicationContext,
+                        R.color.yellow
+                    )
+                )
 
             }
             R.id.ivBookMark -> {
@@ -248,7 +264,12 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
                 mMap.clear()
                 weatherMapViewModel.loadBookmarks()
 
-                ivBookMark.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.yellow))
+                ivBookMark.changeColor(
+                    ContextCompat.getColor(
+                        activity!!.applicationContext,
+                        R.color.yellow
+                    )
+                )
 
             }
             R.id.ivHelp -> {
@@ -262,7 +283,12 @@ class WeatherMapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMo
     private fun resetICOn() {
         ivHelp.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.white))
         ivBookMark.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.white))
-        ivExploreWeather.changeColor(ContextCompat.getColor(activity!!.applicationContext, R.color.white))
+        ivExploreWeather.changeColor(
+            ContextCompat.getColor(
+                activity!!.applicationContext,
+                R.color.white
+            )
+        )
 
     }
 
